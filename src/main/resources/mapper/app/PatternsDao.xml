@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzxy.modules.app.dao.PatternsDao">
+
+
+    <select id="getPatternsBy" resultType="com.hzxy.modules.app.entity.Patterns">
+        select id,family_id,pattern_name,pattern_constitute,current_status,create_time
+        from tb_patterns
+        where family_id = #{familyId}
+    </select>
+
+</mapper>

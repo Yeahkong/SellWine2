@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzxy.modules.app.dao.TtecDao">
+    <update id="updateTtec" >
+        update tb_ttec set
+        debug_time=#{debugTime},
+        program_version=#{programVersion},
+        net_type=#{netType},
+        card_id=#{cardId},
+        scm_id=#{scmId},
+        card_type=#{cardType},
+        on_line_status=#{onLineStatus}
+        where cnei=#{cnei}
+    </update>
+
+</mapper>

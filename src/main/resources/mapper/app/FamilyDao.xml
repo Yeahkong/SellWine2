@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzxy.modules.app.dao.FamilyDao">
+
+    <resultMap type="com.hzxy.modules.app.VO.UserFamilyVO" id="userFamilyVO">
+        <result column="mobile" property="mobile"/>
+        <result column="username" property="userName"/>
+        <result column="status" property="status"/>
+        <result column="family_id" property="familyId"/>
+        <result column="family_name" property="familyName"/>
+        <result column="family_address" property="familyAddress"/>
+        <result column="is_primary" property="isPrimary"/>
+        <result column="user_id" property="userId"/>
+        <result column="nick_name" property="nickName"/>
+    </resultMap>
+
+    <select id="getUserFamily" resultMap="userFamilyVO">
+     SELECT tb_user.`mobile`,tb_user.`username`,tb_user.`status` ,tmp.*
+FROM tb_user RIGHT JOIN (
+ SELECT tb_family.`family_name`,tb_family.`family_address`,
+tb_user_family.`is_primary`,tb_user_family.`user_id`,tb_user_family.`family_id`
+FROM tb_family LEFT JOIN tb_user_family
+ON tb_family.`id` = tb_user_family.`family_id`
+WHERE tb_user_family.`user_id` = #{userId} ) tmp
+ON tb_user.`user_id` = tmp.user_id
+    </select>
+    <select id="getBoardNo" resultType="com.hzxy.modules.app.entity.Ttec">
+        select t.cnei as "cnei",t.scm_id as "scmId" from tb_family f left join tb_ttec t on f.cnei=t.cnei where f.id=#{id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzxy.modules.app.dao.UserFamilyVODao">
+
+    <resultMap type="com.hzxy.modules.app.VO.UserFamilyVO" id="userFamilyVO">
+        <result column="user_family_id" property="userFamilyId"/>
+        <result column="mobile" property="mobile"/>
+        <result column="user_name" property="userName"/>
+        <result column="status" property="status"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="family_id" property="familyId"/>
+        <result column="family_name" property="familyName"/>
+        <result column="family_address" property="familyAddress"/>
+        <result column="is_primary" property="isPrimary"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <select id="getUserFamily" resultMap="userFamilyVO">
+        SELECT tb_user.`mobile`,tb_user.`user_name`,tb_user.`status` ,tmp.*
+        FROM tb_user RIGHT JOIN (
+        SELECT tb_family.`family_name`,tb_family.`family_address`,tb_family.`room_constitute`,
+        tb_family.`cnei`,tb_family.`create_time`,
+        tb_user_family.`is_primary`,tb_user_family.`user_id`,tb_user_family.`family_id`,tb_user_family.`id`,tb_user_family.`nick_name`
+        FROM tb_family right JOIN tb_user_family
+        ON tb_family.`id` = tb_user_family.`family_id`
+        <where>
+            <if test="userFamilyId != null">
+                and tb_user_family.`id` = #{userFamilyId}
+            </if>
+
+            <if test="userId != null">
+                and tb_user_family.`user_id` = #{userId}
+            </if>
+            <if test="familyName != null and familyName != ''">
+                and tb_family.family_name like '%${familyName}%'
+            </if>
+            <if test="familyAddress != null and familyAddress != ''">
+                and tb_family.family_address like '%${familyAddress}%'
+            </if>
+            <if test="familyId != null and familyId != ''">
+                and tb_user_family.family_id =#{familyId}
+            </if>
+            <if test="isPrimary != null and isPrimary != ''">
+                and tb_user_family.is_primary =#{isPrimary}
+            </if>
+        </where>
+        ) tmp
+        ON tb_user.`user_id` = tmp.user_id
+        <where>
+            <if test="mobile != null and mobile != ''">
+                and tb_user.mobile like '%${mobile}%'
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>
