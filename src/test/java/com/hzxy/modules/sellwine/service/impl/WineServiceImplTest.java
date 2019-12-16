@@ -1,6 +1,6 @@
-package com.hzxy.modules.app.dao;
+package com.hzxy.modules.sellwine.service.impl;
 
-import com.hzxy.modules.app.entity.Patterns;
+import com.hzxy.modules.sellwine.service.WineService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,29 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Slf4j
-public class PatternsDaoTest {
+public class WineServiceImplTest {
 
     @Autowired
-    private PatternsDao patternsDao;
+    private WineService wineService;
 
     @Test
     public void test(){
-        Map condition = new HashMap<>();
-        condition.put("familyId",1L);
+        int count = wineService.count();
 
-        List<Patterns> result = patternsDao.getPatternsBy(condition);
-
-        log.info("result size is {}",result.size());
-
+        log.info("count is {}",count);
     }
 
 }

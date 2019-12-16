@@ -51,9 +51,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("congniao smarthome system api")
-            .description("聪鸟智能家居系统API文档")
-            .termsOfServiceUrl("https://www.cnznjj.vip")
+            .title("sell wine project api")
+            .description("小酒保API文档")
+            .termsOfServiceUrl("https://www.gzhj.vip")
             .version("1.0.0")
             .build();
     }

@@ -3,7 +3,7 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         druid:
             driver-class-name: com.mysql.jdbc.Driver
-            url: jdbc:mysql://116.62.162.223:3306/smarthome?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+            url: jdbc:mysql://116.62.162.223:3306/sellwine?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
             username: root
             password: hzCN3306
             initial-size: 10

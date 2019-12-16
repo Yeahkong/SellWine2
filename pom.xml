@@ -43,7 +43,7 @@
 
 		<!--wagon plugin 配置 完成部署的配置 -->
 		<!-- 上传文件到服务器上的路径，服务器会自动创建 -->
-		<service-path>/usr/local/smarthome</service-path>
+		<service-path>/usr/local/sellwine</service-path>
 		<!-- 文件名称 -->
 		<pack-name>${project.artifactId}.jar</pack-name>
 		<!-- 服务器连接地址 , 需要服务器支持scp命令-->
@@ -322,7 +322,7 @@
 							<!-- 密码中不能包含@符号 -->
 							<url><![CDATA[scp://${remote-username}:${remote-passwd}@${remote-addr}${service-path}]]></url>
 							<commands>
-								<command><![CDATA[sh /usr/local/smarthome/start.sh ]]></command>
+								<command><![CDATA[sh /usr/local/sellwine/start.sh ]]></command>
 							</commands>
 							<displayCommandOutputs>true</displayCommandOutputs>
 						</configuration>
