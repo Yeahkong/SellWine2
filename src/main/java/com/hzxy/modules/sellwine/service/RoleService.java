@@ -1,8 +1,7 @@
 package com.hzxy.modules.sellwine.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.hzxy.modules.sellwine.entity.Wine;
+import com.hzxy.modules.sellwine.entity.Role;
 
-
-public interface WineService extends IService<Wine> {
+public interface RoleService extends IService<Role> {
 }
