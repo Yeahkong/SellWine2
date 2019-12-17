@@ -8,14 +8,15 @@ import java.util.Date;
 
 /**
  * @Auther: 赵晓辉
- * @Date: 2019-12-16 14:51
+ * @Date: 2019-12-17 13:48
  * @Description:
  */
 @Data
 @TableName("wine_role")
-public class Role implements Serializable {
+public class WineRole implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = -6465345638465034403L;
 
     private Long id;
 
@@ -23,6 +24,5 @@ public class Role implements Serializable {
 
     private Date createTime;
 
-    private String delFlag;
-
+    private Integer delFlag;
 }

@@ -1,8 +1,8 @@
 package com.hzxy.modules.sellwine.controller;
 
 import com.hzxy.common.utils.R;
-import com.hzxy.modules.sellwine.entity.Wine;
-import com.hzxy.modules.sellwine.service.WineService;
+import com.hzxy.modules.sellwine.VO.WineAreaVO;
+import com.hzxy.modules.sellwine.service.WineAreaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,28 +11,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * @Auther: 赵晓辉
- * @Date: 2019-12-16 13:26
+ * @Date: 2019-12-17 16:25
  * @Description:
  */
 @RestController
-@Api("酒 相关Api")
-@RequestMapping("/wine")
-public class WineController {
+@RequestMapping("/wineArea")
+@Api("区域 相关Api")
+public class WineAreaController {
 
     @Autowired
-    private WineService wineService;
+    private WineAreaService wineAreaService;
 
-    @GetMapping("/allWine")
-    @ApiOperation("获取全部酒")
-    public R allWine(){
-        List<Wine> allWine = wineService.list();
-        Map resultMap = new HashMap();
-        resultMap.put("allWine",allWine);
+    @GetMapping("/getAreaTreeData")
+    @ApiOperation("获取树状结构的区域数据")
+    public R getAreaTreeData(){
+        WineAreaVO wineAreaVO = wineAreaService.getTreeData(1L);
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("treeData",wineAreaVO);
         return R.ok(resultMap);
     }
 

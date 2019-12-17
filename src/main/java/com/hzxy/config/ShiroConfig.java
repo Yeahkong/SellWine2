@@ -53,10 +53,8 @@ public class ShiroConfig {
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/druid/**", "anon");
         filterMap.put("/app/**", "anon");
-        filterMap.put("/appUser/**", "anon");
-        filterMap.put("/wine/**", "anon");
         filterMap.put("/wineRole/**", "anon");
-        filterMap.put("/wineUser/**", "anon");
+        filterMap.put("/wineArea/**", "anon");
         filterMap.put("/sys/login", "anon");
         filterMap.put("/swagger/**", "anon");
         filterMap.put("/v2/api-docs", "anon");

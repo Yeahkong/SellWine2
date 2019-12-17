@@ -1,6 +1,6 @@
 package com.hzxy.modules.sellwine.service.impl;
 
-import com.hzxy.modules.sellwine.service.WineService;
+import com.hzxy.modules.sellwine.service.WineRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,14 +13,14 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Slf4j
-public class WineServiceImplTest {
+public class WineRoleServiceImplTest {
 
     @Autowired
-    private WineService wineService;
+    private WineRoleService wineRoleService;
 
     @Test
     public void test(){
-        int count = wineService.count();
+        Integer count = wineRoleService.count();
 
         log.info("count is {}",count);
     }
