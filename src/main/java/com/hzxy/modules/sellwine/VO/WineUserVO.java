@@ -1,5 +1,8 @@
 package com.hzxy.modules.sellwine.VO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hzxy.common.utils.EnumUtil;
+import com.hzxy.modules.sellwine.enums.DelFlagEnum;
 import lombok.Data;
 
 /**
@@ -14,11 +17,15 @@ public class WineUserVO {
 
     private String userName;
 
-    private String mobileName;
+    private String mobileNo;
 
     private String areaName;
 
-    private String delFlag;
+    private Integer delFlag;
+
+
+    @JsonIgnore
+    public DelFlagEnum delFlag(){return EnumUtil.getByCode(delFlag,DelFlagEnum.class);}
 
     private String createBy;
 

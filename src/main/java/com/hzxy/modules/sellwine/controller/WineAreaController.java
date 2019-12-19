@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,8 +32,10 @@ public class WineAreaController {
     @ApiOperation("获取树状结构的区域数据")
     public R getAreaTreeData(){
         WineAreaVO wineAreaVO = wineAreaService.getTreeData(1L);
+        List<WineAreaVO> result = new ArrayList<>();
+        result.add(wineAreaVO);
         Map<String,Object> resultMap = new HashMap<>();
-        resultMap.put("treeData",wineAreaVO);
+        resultMap.put("treeData",result);
         return R.ok(resultMap);
     }
 

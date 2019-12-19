@@ -26,6 +26,8 @@ public class WineAreaServiceImpl extends ServiceImpl<WineAreaDao, WineArea> impl
 
     @Override
     public WineAreaVO getTreeData(Long id) {
+
+
         WineArea wineArea = baseMapper.selectById(id);
         WineAreaVO wineAreaVO = new WineAreaVO();
         BeanUtils.copyProperties(wineArea,wineAreaVO);
