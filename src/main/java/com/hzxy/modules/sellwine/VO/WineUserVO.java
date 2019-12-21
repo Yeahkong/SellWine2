@@ -5,6 +5,8 @@ import com.hzxy.common.utils.EnumUtil;
 import com.hzxy.modules.sellwine.enums.DelFlagEnum;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @Auther: 赵晓辉
  * @Date: 2019-12-17 16:06
@@ -21,6 +23,8 @@ public class WineUserVO {
 
     private String areaName;
 
+    private String trueName;
+
     private Integer delFlag;
 
 
@@ -32,5 +36,7 @@ public class WineUserVO {
     private String roleName;
 
     private String remark;
+
+    private Date createTime;
 
 }

@@ -1,5 +1,6 @@
 package com.hzxy.modules.sellwine.controller;
 
+import com.hzxy.common.utils.PageUtils;
 import com.hzxy.common.utils.R;
 import com.hzxy.modules.sellwine.entity.WineRole;
 import com.hzxy.modules.sellwine.service.WineRoleService;
@@ -36,6 +37,15 @@ public class WineRoleController {
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put("allRole",wineRoles);
         return R.ok(resultMap);
+    }
+
+    // 分页
+
+    @GetMapping("/page")
+    @ApiOperation("获取分页数据")
+    public R page(@RequestParam Map<String,Object> params){
+        PageUtils pageUtils = wineRoleService.queryPage(params);
+        return R.ok(pageUtils);
     }
 
 

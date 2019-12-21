@@ -16,6 +16,6 @@ public class WinePercentage {
 
     private Long roleId;
 
-    private Integer percentage;
+    private Double percentage;
 
 }

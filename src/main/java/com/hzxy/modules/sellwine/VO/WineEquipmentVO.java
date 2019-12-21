@@ -23,11 +23,15 @@ public class WineEquipmentVO {
 
     private Integer onLineStatus;
 
+    private Long userId;
+
     private String userName;
 
     private Integer status;
 
     private Date decantTime;
+
+    private Long wineId;
 
     private String wineName;
 

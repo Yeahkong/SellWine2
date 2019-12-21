@@ -14,6 +14,6 @@ public class WinePercentageVO {
 
     private String roleName;
 
-    private Integer percentage;
+    private Double percentage;
 
 }

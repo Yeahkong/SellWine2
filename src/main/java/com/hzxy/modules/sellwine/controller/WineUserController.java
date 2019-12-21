@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +65,7 @@ public class WineUserController {
         BeanUtils.copyProperties(wineUserForAdminForm, wineUser);
         //处理密码
         wineUser.setPassword(DigestUtils.sha256Hex(wineUserForAdminForm.getPassword()));
+        wineUser.setCreateTime(new Date());
 
         boolean saveResult = wineUserService.save(wineUser);
         if (saveResult) {
@@ -80,33 +82,11 @@ public class WineUserController {
         List<WineUser> wineUsers = (List<WineUser>) pageUtils.getList();
         List<WineUserVO> wineUserVOS = new ArrayList<>();
         for (WineUser wineUser : wineUsers) {
-            WineUserVO wineUserVO = new WineUserVO();
-            BeanUtils.copyProperties(wineUser, wineUserVO);
-
-            if (wineUser.getAreaId() != null) {
-
-                WineArea wineArea = wineAreaService.getById(wineUser.getAreaId());
-                wineUserVO.setAreaName(wineArea.getCurrentName());
-            }
-
-            if (wineUser.getCreateBy() != null) {
-                WineUser tempUserData = wineUserService.getById(wineUser.getCreateBy());
-                wineUserVO.setCreateBy(tempUserData.getUserName());
-            }
-
-            if (wineUser.getRoleId() != null) {
-                WineRole wineRole = wineRoleService.getById(wineUser.getRoleId());
-                wineUserVO.setRoleName(wineRole.getRoleName());
-            }
-
+            WineUserVO wineUserVO = convertor(wineUser);
             wineUserVOS.add(wineUserVO);
-
         }
-
         pageUtils.setList(wineUserVOS);
-
         return R.ok(pageUtils);
-
     }
 
 
@@ -149,8 +129,10 @@ public class WineUserController {
                                 .eq("role_id", wineUser.getRoleId())
                                 .eq("area_id", wineUser.getAreaId())
                                 .eq("del_flag", DelFlagEnum.SHOW.getCode()));
-                        if (wineUser.getId() != queryForDistinct.getId()) {
-                            return R.error("同级别代理商已经存在，不能启用当前用户");
+                        if(queryForDistinct!=null){
+                            if (wineUser.getId() != queryForDistinct.getId()) {
+                                return R.error("同级别代理商已经存在，不能启用当前用户");
+                            }
                         }
 
                     }
@@ -170,6 +152,47 @@ public class WineUserController {
         }
 
 
+    }
+
+    @GetMapping("/all")
+    @ApiOperation("获取全部用户")
+    public R all(){
+        List<WineUser> list = wineUserService.list();
+        if(list!=null && list.size()>0){
+            List<WineUserVO> wineUserVOS = new ArrayList<>();
+            for(WineUser wineUser : list){
+                WineUserVO wineUserVO = convertor(wineUser);
+                wineUserVOS.add(wineUserVO);
+            }
+
+            return R.ok(wineUserVOS);
+
+        }else{
+            return R.error("用户表中数据为空");
+        }
+    }
+
+
+    public WineUserVO convertor(WineUser wineUser){
+        WineUserVO wineUserVO = new WineUserVO();
+        BeanUtils.copyProperties(wineUser, wineUserVO);
+
+        if (wineUser.getAreaId() != null) {
+
+            WineArea wineArea = wineAreaService.getById(wineUser.getAreaId());
+            wineUserVO.setAreaName(wineArea.getCurrentName());
+        }
+
+        if (wineUser.getCreateBy() != null) {
+            WineUser tempUserData = wineUserService.getById(wineUser.getCreateBy());
+            wineUserVO.setCreateBy(tempUserData.getUserName());
+        }
+
+        if (wineUser.getRoleId() != null) {
+            WineRole wineRole = wineRoleService.getById(wineUser.getRoleId());
+            wineUserVO.setRoleName(wineRole.getRoleName());
+        }
+        return wineUserVO;
     }
 
 }

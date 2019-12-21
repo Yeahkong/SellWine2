@@ -27,4 +27,6 @@ public class Wine implements Serializable {
 
     private String remark;
 
+    private Integer delFlag;
+
 }

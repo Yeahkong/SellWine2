@@ -23,6 +23,7 @@ public class WineEquipmentServiceImpl extends ServiceImpl<WineEquipmentDao, Wine
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         Object onLineStatus = params.get("onLineStatus");
+        Object equipmentNo = params.get("equipmentNo");
         Object userId = params.get("userId");
         Object status = params.get("status");
 
@@ -30,7 +31,8 @@ public class WineEquipmentServiceImpl extends ServiceImpl<WineEquipmentDao, Wine
                 new QueryWrapper<WineEquipment>()
         .eq(StringUtils.isNotEmpty(onLineStatus),"on_line_status",onLineStatus)
         .eq(StringUtils.isNotEmpty(userId),"user_id",userId)
-        .eq(StringUtils.isNotEmpty(status),"status",status));
+        .eq(StringUtils.isNotEmpty(status),"status",status)
+        .like(StringUtils.isNotEmpty(equipmentNo),"equipment_no",equipmentNo));
 
 
         return new PageUtils(page);
