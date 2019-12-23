@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hzxy.common.utils.PageUtils;
 import com.hzxy.common.utils.R;
 import com.hzxy.common.utils.StringUtils;
+import com.hzxy.common.validator.ValidatorUtils;
+import com.hzxy.modules.app.utils.JwtUtils;
 import com.hzxy.modules.sellwine.VO.WineUserVO;
 import com.hzxy.modules.sellwine.entity.WineArea;
 import com.hzxy.modules.sellwine.entity.WineRole;
 import com.hzxy.modules.sellwine.entity.WineUser;
 import com.hzxy.modules.sellwine.enums.DelFlagEnum;
 import com.hzxy.modules.sellwine.form.WineUserForAdminForm;
+import com.hzxy.modules.sellwine.form.WineUserLoginForm;
 import com.hzxy.modules.sellwine.service.WineAreaService;
 import com.hzxy.modules.sellwine.service.WineRoleService;
 import com.hzxy.modules.sellwine.service.WineUserService;
@@ -21,10 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Auther: 赵晓辉
@@ -45,6 +45,9 @@ public class WineUserController {
 
     @Autowired
     private WineAreaService wineAreaService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @PostMapping("/addWineUser")
     @ApiOperation("管理员添加用户")
@@ -87,6 +90,42 @@ public class WineUserController {
         }
         pageUtils.setList(wineUserVOS);
         return R.ok(pageUtils);
+    }
+
+
+    @PostMapping("/login")
+    @ApiOperation("用户登录")
+    public R login(@RequestBody WineUserLoginForm wineUserLoginForm){
+        ValidatorUtils.validateEntity(wineUserLoginForm);
+
+        WineUser wineUser = wineUserService.getOne(new QueryWrapper<WineUser>()
+        .eq("user_name",wineUserLoginForm.getUserName()));
+
+        if(wineUser!=null){
+            String password = wineUser.getPassword();
+            if(DigestUtils.sha256Hex(wineUserLoginForm.getPassword()).equals(password)){
+
+                if(wineUser.getDelFlag().equals(DelFlagEnum.HIDDEN.getCode())){
+                    return R.error("用户被禁用");
+                }
+
+                //生成token
+                String token = jwtUtils.generateToken(wineUser.getId());
+
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("token", token);
+                map.put("expire", jwtUtils.getExpire());
+
+
+                return R.ok(map);
+            }else{
+                return R.error("密码错误");
+            }
+        }else{
+            return R.error("用户名不存在");
+        }
+
     }
 
 

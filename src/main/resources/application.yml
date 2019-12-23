@@ -64,6 +64,8 @@ mybatis-plus:
     cache-enabled: false
     call-setters-on-nulls: true
     jdbc-type-for-null: 'null'
+    # 配置显示sql和填充的参数
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 renren:
