@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzxy.modules.sellwine.dao.WineExceptionVODao">
+
+    <resultMap type="com.hzxy.modules.sellwine.VO.WineExceptionVO" id="wineExceptionVO">
+        <result column="equipment_no" property="equipmentNo"/>
+        <result column="true_name" property="trueName"/>
+        <result column="mobile_no" property="mobileNo"/>
+        <result column="current_name" property="areaName"/>
+        <result column="alarm_time" property="alarmTime"/>
+        <result column="release_alarm_time" property="releaseAlarmTime"/>
+        <result column="exception_type" property="exceptionType"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <select id="queryPage" resultMap="wineExceptionVO">
+        SELECT
+            ex.*, eq.equipment_no,
+            users.true_name,
+            users.mobile_no,
+            area.current_name
+        FROM
+            wine_exception ex
+        LEFT JOIN wine_equipment eq ON ex.equipment_no = eq.equipment_no
+        LEFT JOIN wine_user users ON eq.user_id = users.id
+        LEFT JOIN wine_area area ON users.area_id = area.id
+        <where>
+            <if test="ex.trueName != null and ex.trueName != ''">
+                and users.true_name like
+                CONCAT('%','${ex.trueName}','%')
+            </if>
+            <if test="ex.mobileNo != null and ex.mobileNo != ''">
+                and users.mobile_no like
+                CONCAT('%','${ex.mobileNo}','%')
+            </if>
+            <if test="ex.areaName != null and ex.areaName != ''">
+                and area.current_name like
+                CONCAT('%','${ex.areaName}','%')
+            </if>
+            <if test="ex.equipmentNo != null and ex.equipmentNo != ''">
+                and eq.equipment_no like
+                CONCAT('%','${ex.equipmentNo}','%')
+            </if>
+        </where>
+    </select>
+</mapper>

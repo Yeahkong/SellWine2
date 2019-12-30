@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzxy.modules.sellwine.dao.WineOrderDao">
+    <resultMap type="com.hzxy.modules.sellwine.VO.WineOrderVO" id="wineOrderVO">
+        <result column="order_no" property="orderNo"/>
+        <result column="equipment_id" property="equipmentId"/>
+        <result column="equipment_no" property="equipmentNo"/>
+        <result column="amount" property="amount"/>
+        <result column="user_name" property="userName"/>
+        <result column="true_name" property="trueName"/>
+        <result column="wine_name" property="wineName"/>
+        <result column="tencent_open_id" property="tencentOpenId"/>
+        <result column="alipay_open_id" property="alipayOpenId"/>
+        <result column="buy_time" property="buyTime"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="pay_way" property="payWay"/>
+        <result column="amount_payable" property="amountPayable"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <select id="wineOrderVO">
+        select `order`.*,tmp.*
+        from wine_order order
+        left join (
+        select equipment.*,user.userName,user.trueName,wine.wineName
+        from wine_equipment equipment
+        left join wine_user user on equipment.user_id=user.id
+        left join wine_wine wine on equipment.wine_id=wine.id
+        <where>
+            <if test="userId != null">
+                and equipment.user_id=#{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user.user_name like
+                CONCAT('%','${page.userName}','%')
+            </if>
+            <if test="trueName != null and trueName != ''">
+                and user.true_name like
+                CONCAT('%','${page.trueName}','%')
+            </if>
+            <if test="wine_id != null">
+                and equipment.wine_id=#{wineId}
+            </if>
+            <if test="wineName != null and wineName != ''">
+                and wine.wine_name like
+                CONCAT('%','${page.wineName}','%')
+            </if>
+        </where>
+        ) tmp on order.equipment_id=tmp.equipment_id
+        <where>
+            <if test="order.equipmentId != null and order.equipmentId != ''">
+                and equipment.equipment_id like
+                CONCAT('%','${order.equipmentId}','%')
+            </if>
+        </where>
+
+    </select>
+</mapper>

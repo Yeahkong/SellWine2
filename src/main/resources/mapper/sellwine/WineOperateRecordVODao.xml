@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzxy.modules.sellwine.dao.WineOperateRecordVODao">
+
+    <resultMap type="com.hzxy.modules.sellwine.VO.WineOperateRecordVO" id="wineOperateRecordVO">
+        <result column="equipment_no" property="equipmentNo"/>
+        <result column="true_name" property="trueName"/>
+        <result column="mobile_no" property="mobileNo"/>
+        <result column="current_name" property="areaName"/>
+        <result column="operate_name" property="operateName"/>
+        <result column="operate_content" property="operateContent"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <select id="queryPage" resultMap="wineOperateRecordVO">
+
+        SELECT
+        opr.*,
+        users.true_name,
+        users.mobile_no,
+        area.current_name
+        FROM
+        wine_opr_record opr
+        LEFT JOIN wine_equipment eq ON opr.equipment_no = eq.equipment_no
+        LEFT JOIN wine_user users ON eq.user_id = users.id
+        LEFT JOIN wine_area area ON users.area_id = area.id
+        <where>
+            <if test="opr.trueName != null and opr.trueName != ''">
+                and users.true_name like
+                CONCAT('%','${opr.trueName}','%')
+            </if>
+            <if test="opr.mobileNo != null and opr.mobileNo != ''">
+                and users.mobile_no like
+                CONCAT('%','${opr.mobileNo}','%')
+            </if>
+            <if test="opr.areaName != null and opr.areaName != ''">
+                and area.current_name like
+                CONCAT('%','${opr.areaName}','%')
+            </if>
+            <if test="opr.equipmentNo != null and opr.equipmentNo != ''">
+                and eq.equipment_no like
+                CONCAT('%','${opr.equipmentNo}','%')
+            </if>
+        </where>
+    </select>
+</mapper>

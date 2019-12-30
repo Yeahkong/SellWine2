@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzxy.modules.sellwine.dao.WineOrderVODao">
+    <resultMap type="com.hzxy.modules.sellwine.VO.WineOrderVO" id="WineOrderVO">
+        <result column="order_no" property="orderNo"/>
+        <result column="equipment_id" property="equipmentId"/>
+        <result column="equipment_no" property="equipmentNo"/>
+        <result column="amount" property="amount"/>
+        <result column="user_name" property="userName"/>
+        <result column="true_name" property="trueName"/>
+        <result column="mobile_no" property="mobileNo"/>
+        <result column="wine_name" property="wineName"/>
+        <result column="tencent_open_id" property="tencentOpenId"/>
+        <result column="alipay_open_id" property="alipayOpenId"/>
+        <result column="buy_time" jdbcType="TIME" property="buyTime"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="pay_way" property="payWay"/>
+        <result column="amount_payable" property="amountPayable"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <select id="queryPage" resultMap="WineOrderVO">
+          SELECT
+          orders.*,
+          eq.equipment_no,
+          `user`.user_name,
+          `user`.mobile_no,
+          `user`.true_name,
+          wine.wine_name
+          FROM wine_order orders
+          LEFT JOIN wine_equipment eq on orders.equipment_id=eq.id
+          LEFT JOIN wine_user user on `user`.id=eq.user_id
+          LEFT JOIN wine_wine wine on wine.id=eq.wine_id
+        <where>
+            <if test="order.trueName != null and order.trueName != ''">
+                and user.true_name like
+                CONCAT('%','${order.trueName}','%')
+            </if>
+            <if test="order.mobileNo != null and order.mobileNo != ''">
+                and user.mobile_no like
+                CONCAT('%','${order.mobileNo}','%')
+            </if>
+            <if test="order.wineName != null and order.wineName != ''">
+                and wine.wine_name like
+                CONCAT('%','${order.wineName}','%')
+            </if>
+            <if test="order.equipmentNo != null and order.equipmentNo != ''">
+                and eq.equipment_no like
+                CONCAT('%','${order.equipmentNo}','%')
+            </if>
+            <if test="stime != null and stime != null ">
+            where buy_time &gt;=#{stime} and buy_time &lt;=#{etime}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>
